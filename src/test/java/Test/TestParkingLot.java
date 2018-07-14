@@ -1,4 +1,4 @@
-package Exception;
+package Test;
 
 
 
@@ -15,10 +15,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.not;
 
 import static org.fest.assertions.api.Fail.fail;
-
+import Exception.ParkLotException;
 public class TestParkingLot {
     @Test
-    public void should_park_successfully_given_partking_lot_is_not_full(){
+    public void should_park_successfully_given__partking_lot_is_not_full(){
         ParkingLot parkinglot =new ParkingLot(1);
         try{
             parkinglot.park(new Car("粤C8888"));

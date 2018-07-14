@@ -23,7 +23,7 @@ public class Receipt {
     @Override
     public boolean equals(Object obj) {
         if(this==obj) {return true;}
-        else if (this.receiptNumber == ((Receipt)obj).receiptNumber){
+        else if (this.receiptNumber.equals(((Receipt)obj).receiptNumber)){
             return true;
         }else {
            return false;
