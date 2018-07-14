@@ -3,39 +3,68 @@ package Control;
 import modle.Car;
 import modle.ParkingLot;
 import modle.Receipt;
+import view.Request;
+import view.Response;
+import com.thoughtworks.tdd.ParkingBoy;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-public class Control{
-    ParkingLot parkingLot = new ParkingLot(2);
-    public void startOprate(){
-        int flag = 0;
-        while (flag == 0){
-            Scanner read = new Scanner(System.in);
+public class Control {
+    ParkingBoy parkingBoy;
+    Response response;
+    Request request;
+    public Control(ParkingBoy parkingBoy, Response response, Request request) {
+        this.parkingBoy = parkingBoy;
+        this.response = response;
+        this.request = request;
+    }
 
-            int inputOrder = read.nextInt();
-            if (inputOrder!=1&&inputOrder!=2){
-                System.out.println("非法指令，请查证后再输");
-            }else {
-                switch (inputOrder){
-                    case 1:{
-                        Car car = new Car("粤C88888");
-                        Receipt receipt = parkingLot.park(car);
-                        System.out.println("停车成功，您的小票是：\n"+receipt.getReceiptNumber());
+    public ParkingBoy getParkingBoy() {
+        return parkingBoy;
+    }
+
+
+    public void startOprate(int flag) {
+        while (flag>0){
+            flag--;
+            response.showOperateMessage();
+            int inputOrder = request.inputOprateInstructions();
+            if (inputOrder != 1 && inputOrder != 2) {
+                response.showErrorOperateMessage();
+            } else {
+                switch (inputOrder) {
+                    case 1: {
+                        if (parkingBoy.isFull())
+                            response.showParkFullMessage();
+                        else {
+                            response.showInputCarIdMessage();
+                            Car car = new Car(request.inputCarId());
+                            Receipt receipt = parkingBoy.park(car);
+                            response.showParkSuccessfulMessage(receipt);
+                        }
                     }
                     break;
-                    case 2:{
-                        System.out.println("请输入小票编号：");
-                        Scanner inputTik = new Scanner(System.in);
-                        String stee = inputTik.nextLine();
-                        System.out.println("您输入的是:"+stee);
-                        Car myCarNumber = parkingLot.unpark(new Receipt(stee));
-                        System.out.println(myCarNumber.getcId());
+                    case 2: {
+                        response.showInputReciptNumberMessage();
+                        String str = request.inputReceiptNumber();
+                        try{
+                            Car myCar = parkingBoy.unpark(new Receipt(str));
+                            response.showUnpartCarMessage(myCar);
+                        }catch (RuntimeException exception){
+                            response.showtReciptNumberErrorMessage();
+                        }
+
                     }
                     break;
-
                 }
+
+
             }
         }
+
+        }
     }
-}
+
+

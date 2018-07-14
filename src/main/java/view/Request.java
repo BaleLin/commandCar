@@ -2,7 +2,7 @@ package view;
 
 import java.util.Scanner;
 
-public class request {
+public class Request {
     public int inputOprateInstructions(){
         Scanner read = new Scanner(System.in);
         return read.nextInt();
