@@ -21,17 +21,16 @@ public class Receipt {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(this==obj) {return true;}
-        else if (this.receiptNumber.equals(((Receipt)obj).receiptNumber)){
-            return true;
-        }else {
-           return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Receipt receipt = (Receipt) o;
+        return Objects.equals(receiptNumber, receipt.receiptNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(receiptNumber);
+
+        return Objects.hash(receiptNumber);
     }
 }
