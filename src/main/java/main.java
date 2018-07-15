@@ -14,9 +14,9 @@ import java.util.Scanner;
 public class main {
     public  static void main(String[] args){
 
-//        SetUpParkingboy setUpParkingboy = new SetUpParkingboy();
-//       Control control = new Control(new com.thoughtworks.tdd.ParkingBoy(setUpParkingboy.getParkingLotList()),new Response(),new Request());
-//       control.startOprate(18);
+        SetUpParkingboy setUpParkingboy = new SetUpParkingboy();
+       Control control = new Control(new com.thoughtworks.tdd.ParkingBoy(setUpParkingboy.getParkingLotList()),new Response(),new Request());
+       control.startOprate(18);
 
     }
     }
