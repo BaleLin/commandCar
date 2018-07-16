@@ -87,7 +87,7 @@ public class ParkingBoy {
 
         }
     }
-      
+          
     public StringBuffer queryParkingLotList(){
         StringBuffer queryString = new StringBuffer();
         queryString.append("|停车场ID|名称|车位|已停车辆|剩余车位|\n");
