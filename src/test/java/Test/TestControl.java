@@ -21,9 +21,7 @@ import static net.bytebuddy.matcher.ElementMatchers.is;
 import static org.fest.assertions.api.Fail.fail;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class TestControl {
     private ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -94,6 +92,7 @@ public class TestControl {
         when(parkingBoy.unpark(receipt)).thenReturn(car);
         //then
         control.startOprate(2);
+        verify(request,times(2)).inputOprateInstructions();
         verify(request).inputCarId();
         verify(request).inputReceiptNumber();
         verify(parkingBoy).park(car);
@@ -119,6 +118,9 @@ public class TestControl {
         when(parkingBoy.unpark(receipt)).thenReturn(car);
         //then
         control.startOprate(3);
+        verify(request,times(3)).inputOprateInstructions();
+        verify(request,times(2)).inputCarId();
+        verify(parkingBoy,times(2)).park(car);
         verify(parkingBoy).unpark(receipt);
         Assertions.assertThat(systemOut()).contains("停车成功，您的小票是：\n您的取票号码是:"+stringReceipt);
         Assertions.assertThat(systemOut()).contains("车已取出，您的车牌号是:粤C8888");
