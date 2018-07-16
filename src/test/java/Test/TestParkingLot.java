@@ -106,7 +106,7 @@ public class TestParkingLot {
         }
     }
         @Test
-        public  void should_park_be_faill_given_a__full_parking_take_out_car_and_take_out_again(){
+        public  void should_park_be_fail_given_a__full_parking_take_out_car_and_take_out_again(){
             ParkingLot parkingLot = new ParkingLot(1);
             Car car = new Car("粤C8888");
             Receipt receipt = parkingLot.park(car);
@@ -114,5 +114,30 @@ public class TestParkingLot {
             assertThat((parkingLot.unpark(receipt)),equalTo(null));
     }
 
+    @Test
+    public  void should_return_a_ture_number_given_park_two_car(){
+        ParkingLot parkingLot = new ParkingLot("001","东南停车场",40,0,40);
+        Car car = new Car("粤C8888");
+        Car car2 = new Car("粤C6666");
+         parkingLot.park(car);
+         parkingLot.park(car2);
+         int[] actualValue = {parkingLot.getTotalSpace(),parkingLot.getExistenceNumber(),parkingLot.getSize()};
+         int[] expectedValue = {40,2,38};
+         assertThat(actualValue,equalTo(expectedValue));
 
+    }
+
+    @Test
+    public  void should_return_a_ture_number_given_park_two_car_and_then_unpark(){
+        ParkingLot parkingLot = new ParkingLot("001","东南停车场",40,0,40);
+        Car car = new Car("粤C8888");
+        Car car2 = new Car("粤C6666");
+        parkingLot.park(car);
+        Receipt receipt = parkingLot.park(car2);
+        parkingLot.unpark(receipt);
+        int[] actualValue = {parkingLot.getTotalSpace(),parkingLot.getExistenceNumber(),parkingLot.getSize()};
+        int[] expectedValue = {40,1,39};
+        assertThat(actualValue,equalTo(expectedValue));
+
+    }
 }

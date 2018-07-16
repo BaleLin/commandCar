@@ -3,17 +3,20 @@ package view;
 import java.util.Scanner;
 
 public class Request {
-    public int inputOprateInstructions(){
-        Scanner read = new Scanner(System.in);
-        return read.nextInt();
-    }
-    public String inputCarId(){
-        Scanner read = new Scanner(System.in);
-        return read.nextLine();
+    private String parameter;
+
+
+
+    public String getParameter() {
+        return parameter;
     }
 
-    public String inputReceiptNumber(){
-        Scanner read = new Scanner(System.in);
-        return read.nextLine();
+    public void setParameter(String parameter) {
+        this.parameter = parameter;
+    }
+
+    public String input() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.next();
     }
 }

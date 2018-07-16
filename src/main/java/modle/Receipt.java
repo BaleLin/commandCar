@@ -33,4 +33,5 @@ public class Receipt {
 
         return Objects.hash(receiptNumber);
     }
+
 }
