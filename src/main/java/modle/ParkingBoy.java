@@ -88,24 +88,8 @@ public class ParkingBoy {
         }
     }
           
-    public StringBuffer queryParkingLotList(){
-        StringBuffer queryString = new StringBuffer();
-        queryString.append("|停车场ID|名称|车位|已停车辆|剩余车位|\n");
-        queryString.append("======================================\n");
-        int sumTotalSpace = 0;
-        int sumExistenceNumber = 0;
-        int sumSize = 0;
-        for(ParkingLot parkingLot:parkingLotList){
-            String tempString = String.format("|%s|%s|%d(个)|%d(辆)|%d(个)|\n",parkingLot.getId(),parkingLot.getName(),parkingLot.getTotalSpace(),parkingLot.getExistenceNumber(),parkingLot.getSize());
-            queryString.append(tempString);
-            sumTotalSpace += parkingLot.getTotalSpace();
-            sumExistenceNumber += parkingLot.getExistenceNumber();
-            sumSize += parkingLot.getSize();
-        }
-        queryString.append( "总车位："+String.valueOf(sumTotalSpace)+"(个)\n");
-        queryString.append( "停车总量："+String.valueOf(sumExistenceNumber)+"（辆）\n");
-        queryString.append( "总剩余车位："+String.valueOf(sumSize)+"(个)\n");
-        return queryString;
+    public List<ParkingLot> queryParkingLotList(){
+        return this.parkingLotList;
     }
     public boolean isParkingLotListNull(){
         if(parkingLotList.size()==0)

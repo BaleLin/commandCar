@@ -153,15 +153,26 @@ public class Control {
 
 
     public String queryPakingLot() {
-        response.send(""+parkingBoy.queryParkingLotList());
+        StringBuffer queryString = new StringBuffer();
+        queryString.append("|停车场ID|名称|车位|已停车辆|剩余车位|\n");
+        queryString.append("======================================\n");
+        int sumTotalSpace = 0;
+        int sumExistenceNumber = 0;
+        int sumSize = 0;
+        for(ParkingLot parkingLot:parkingBoy.queryParkingLotList()){
+            String tempString = String.format("|%s|%s|%d(个)|%d(辆)|%d(个)|\n",parkingLot.getId(),parkingLot.getName(),parkingLot.getTotalSpace(),parkingLot.getExistenceNumber(),parkingLot.getSize());
+            queryString.append(tempString);
+            sumTotalSpace += parkingLot.getTotalSpace();
+            sumExistenceNumber += parkingLot.getExistenceNumber();
+            sumSize += parkingLot.getSize();
+        }
+        queryString.append( "总车位："+String.valueOf(sumTotalSpace)+"(个)\n");
+        queryString.append( "停车总量："+String.valueOf(sumExistenceNumber)+"（辆）\n");
+        queryString.append( "总剩余车位："+String.valueOf(sumSize)+"(个)\n");
+        response.send(queryString.toString());
         return "main";
     }
-//    public String addParkCar(Request request) {
-//        String command = request.getParameter();
-//        Receipt receipt = parkingBoy.addParkingLot();
-//        response.send("停车成功，您的小票是：\n" + receipt.getReceiptNumber());
-//        return "main";
-//    }
+
 }
 
 

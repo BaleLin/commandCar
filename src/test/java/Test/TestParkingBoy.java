@@ -223,42 +223,6 @@ public class TestParkingBoy {
         }
     }
 
-    @Test
-    public void should_manage_query_parkingLot_successful_given_a_not_null_parkingLot() {
-        List<ParkingLot> parkingLotlist = new ArrayList<>();
-        ParkingBoy parkingBoy = new ParkingBoy(parkingLotlist);
-        parkingBoy.addParkingLot("东南停车场",40);
-        parkingBoy.addParkingLot("东南停车场",40);
-        parkingBoy.addParkingLot("东北停车场",20);
-Assertions.assertThat(parkingBoy.queryParkingLotList().toString()).contains(("|停车场ID|名称|车位|已停车辆|剩余车位|\n" +
-        "======================================\n" +
-        "|001|东南停车场|40(个)|0(辆)|40(个)|\n" +
-        "|002|东南停车场|40(个)|0(辆)|40(个)|\n" +
-        "|003|东北停车场|20(个)|0(辆)|20(个)|\n" +
-        "总车位：100(个)\n" +
-        "停车总量：0（辆）\n" +
-        "总剩余车位：100(个)"));
-    }
 
-    @Test
-    public void should_manage_query_a_right_message_given_a_not_null_parkingLot_park_again_() {
-        List<ParkingLot> parkingLotlist = new ArrayList<>();
-        ParkingBoy parkingBoy = new ParkingBoy(parkingLotlist);
-        parkingBoy.addParkingLot("东南停车场",2);
-        parkingBoy.addParkingLot("东南停车场",2);
-        parkingBoy.addParkingLot("东北停车场",2);
-        parkingBoy.park(new Car("粤C888"));
-        parkingBoy.park(new Car("粤C111"));
-        parkingBoy.park(new Car("粤C222"));
-        parkingBoy.park(new Car("粤C333"));
-        Assertions.assertThat(parkingBoy.queryParkingLotList().toString()).contains("|停车场ID|名称|车位|已停车辆|剩余车位|\n" +
-                "======================================\n" +
-                "|001|东南停车场|2(个)|2(辆)|0(个)|\n" +
-                "|002|东南停车场|2(个)|2(辆)|0(个)|\n" +
-                "|003|东北停车场|2(个)|0(辆)|2(个)|\n" +
-                "总车位：6(个)\n" +
-                "停车总量：4（辆）\n" +
-                "总剩余车位：2(个)");
-    }
 
 }
