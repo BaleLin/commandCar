@@ -3,16 +3,13 @@ package view;
 import java.util.Scanner;
 
 public class Request {
-    private String parameter;
-
-
-
-    public String getParameter() {
-        return parameter;
+    private String command;
+    public String getCommand() {
+        return command;
     }
 
-    public void setParameter(String parameter) {
-        this.parameter = parameter;
+    public void setCommand(String command) {
+        this.command = command;
     }
 
     public String input() {

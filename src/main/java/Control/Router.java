@@ -2,44 +2,56 @@ package Control;
 import view.Request;
 import view.Response;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Router {
-    private String currentPage;
-    private Control controller;
+    private final String initRoutePath;
+    private String currentPath;
+    private Map<String, BaseController> routeMaps = new HashMap<>();
 
-    public Router(String currentPage, Control controller) {
-        this.currentPage = currentPage;
-        this.controller = controller;
+    public Router(String initStatus) {
+        this.initRoutePath = initStatus;
+        this.currentPath = initStatus;
     }
 
-    public void handleRequest(Request request) {
-        switch (currentPage) {
-            case "main":
-                currentPage = controller.handleFirstMenuParkOrder(request);
-                break;
-                case "park":
-                currentPage = controller.parkCar(request);
-                break;
-                case "unPark":
-                currentPage = controller.unParkCar(request);
-                break;
-               case "secondParkMenumain":
-                currentPage = controller.handleSecondParkMenumain(request);
-                break;
-            case "addPakingLot":
-                currentPage = controller.addPakingLot(request);
-                break;
-            case "deletePakingLot":
-                currentPage = controller.deletePakingLot(request);
-                break;
-              case "secondServiceMenumain":
-                currentPage = controller.handleSecondServiceMenumain(request);
-                break;
+    public void launch() {
+        routeMaps.get(this.initRoutePath).process();
+    }
+
+    public void registerRoute(String route, BaseController processor) {
+        routeMaps.put(route, processor);
+    }
+
+    public void processRequest(Request request) {
+
+        String routePath = buildLocateRoutePath(request);
+        String forwardRouteRule = routeMaps.get(routePath).process();
+        currentPath = routePath;
+        if (forwardRouteRule != null && forwardRouteRule.contains("forward:")) {
+            currentPath = buildForwardRoutePath(forwardRouteRule);
         }
     }
 
-    public void toPage() {
-        if(currentPage.equals("main")){
-            controller.toMainPage();
+    private String buildForwardRoutePath(String forwardRouteRule) {
+        String forwardRoute = forwardRouteRule.split(":")[1];
+        routeMaps.get(forwardRoute).process();
+        return forwardRoute;
+    }
+
+    private String buildLocateRoutePath(Request request) {
+        String subPath = request.getCommand().isEmpty() ? "" : "/" + translateRequestInput(request);
+        return currentPath + subPath;
+    }
+
+    private String translateRequestInput(Request request) {
+        if (Arrays.asList("1", "2","3").contains(request.getCommand())) {
+            return request.getCommand();
+        } else {
+            return "*";
         }
     }
+
+
 }
