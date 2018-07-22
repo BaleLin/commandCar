@@ -27,7 +27,7 @@ public class Router {
     public void processRequest(Request request) {
 
         String routePath = buildLocateRoutePath(request);
-        String forwardRouteRule = routeMaps.get(routePath).process();
+            String forwardRouteRule = routeMaps.get(routePath).process();
         currentPath = routePath;
         if (forwardRouteRule != null && forwardRouteRule.contains("forward:")) {
             currentPath = buildForwardRoutePath(forwardRouteRule);

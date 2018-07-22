@@ -110,5 +110,5 @@ public class ParkingLotControllerTest {
         assertThat(forwardPath, is("forward:firstLevelMain"));
     }
 
-   
+
 }
