@@ -1,7 +1,6 @@
 package Test.controllerTest;
 import Control.PakingCarControl.*;
-import Control.PakingLotController.GotoAddParkingLotController;
-import Control.PakingLotController.GotoDeleteParkingLotController;
+import Control.PakingLotController.*;
 import modle.Car;
 import modle.ParkingBoy;
 import modle.Receipt;
@@ -9,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import view.Request;
 import view.Response;
+import Exception.* ;
 
 import java.util.UUID;
 
@@ -59,4 +59,56 @@ public class ParkingLotControllerTest {
         assertThat(forwardPath, not(containsString("forward:")));
     }
 
+    @Test
+    public void should_add_parking_lot_successfully(){
+        //given
+        AddParkingLotController controller = new AddParkingLotController(request, response, parkingBoy);
+        //when
+        when(request.getCommand()).thenReturn("东南停车场，20");
+        String forwardPath = controller.process();
+        //then
+        verify(response).send("停车场添加成功！");
+        assertThat(forwardPath, is("forward:firstLevelMain"));
+      }
+
+    @Test
+    public void should_delete_parking_lot_successfully(){
+        //given
+        DeleteParkingLotController controller = new DeleteParkingLotController(request, response, parkingBoy);
+        //when
+        when(request.getCommand()).thenReturn("001");
+        when(parkingBoy.deleteParkingLot("001")).thenReturn(true);
+        String forwardPath = controller.process();
+        //then
+        verify(response).send("停车场删除成功！");
+        assertThat(forwardPath, is("forward:firstLevelMain"));
+    }
+
+    @Test
+    public void should_delete_parking_lot_fail_given_a_worng_pakingLot_id(){
+        //given
+        DeleteParkingLotController controller = new DeleteParkingLotController(request, response, parkingBoy);
+        //when
+        when(request.getCommand()).thenReturn("123");
+        when(parkingBoy.deleteParkingLot("123")).thenThrow(new DeleteWrongParkingLotId("have not this ParkingLot"));
+        String forwardPath = controller.process();
+        //then
+        verify(response).send("停车场添加失败，原因：此停车场不存在！");
+        assertThat(forwardPath, is("forward:firstLevelMain"));
+
+    }
+    @Test
+    public void should_delete_parking_lot_fail_given_pakingLot_has_null(){
+        //given
+        DeleteParkingLotController controller = new DeleteParkingLotController(request, response, parkingBoy);
+        //when
+        when(request.getCommand()).thenReturn("123");
+        when(parkingBoy.deleteParkingLot("123")).thenThrow(new deleteFailException("have not parkingLot to delete"));
+        String forwardPath = controller.process();
+        //then
+        verify(response).send("并没有停车场可供删除，删除失败！");
+        assertThat(forwardPath, is("forward:firstLevelMain"));
+    }
+
+   
 }

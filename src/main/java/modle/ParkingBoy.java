@@ -75,12 +75,13 @@ public class ParkingBoy {
         return id;
     }
 
-    public void deleteParkingLot(String id) throws deleteFailException, DeleteWrongParkingLotId {
+    public boolean deleteParkingLot(String id) throws deleteFailException, DeleteWrongParkingLotId {
         if(this.isParkingLotListNull()){
             throw new deleteFailException("have not parkingLot to delete");
         }else {
             if (parkingLotList.contains(new ParkingLot(id))){
                 parkingLotList.remove(new ParkingLot(id));
+                return true;
             }else {
                 throw new DeleteWrongParkingLotId("have not this ParkingLot");
             }

@@ -24,13 +24,14 @@ public class DeleteParkingLotController implements BaseController {
         String command = request.getCommand();
         if(command!=null){
             try {
-                parkingBoy.deleteParkingLot(command);
-                response.send("停车场删除成功！");
+                if(parkingBoy.deleteParkingLot(command)){
+                    response.send("停车场删除成功！");
+                }
             }
             catch (DeleteWrongParkingLotId ex1){
                 response.send("停车场添加失败，原因：此停车场不存在！");
             }catch (deleteFailException ex2){
-                response.send("并没有停车场可供删除，删除失败");
+                response.send("并没有停车场可供删除，删除失败！");
             }
             return "forward:firstLevelMain";
         }
